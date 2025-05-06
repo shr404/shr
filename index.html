@@ -2,39 +2,51 @@
 <html lang="ar" dir="rtl">
 <head>
   <meta charset="UTF-8">
-  <title>تحذير!</title>
+  <title>تحذير مرعب!</title>
   <style>
+    @import url('https://fonts.googleapis.com/css2?family=Creepster&display=swap');
+
     body {
+      margin: 0;
       background-color: black;
+      background-image: url('https://i.imgur.com/8fKQZ2L.jpg');
+      background-size: cover;
+      background-position: center;
       color: white;
       font-family: 'Courier New', Courier, monospace;
       text-align: center;
       padding: 50px;
-      animation: shake 0.5s infinite;
+      overflow: hidden;
+      animation: shake 0.5s infinite, flash 1s infinite alternate;
     }
 
     .warning {
       color: red;
-      font-size: 60px;
+      font-family: 'Creepster', cursive;
+      font-size: 90px;
       font-weight: bold;
+      text-shadow: 0 0 20px red;
     }
 
     .message {
       color: white;
-      font-size: 28px;
-      margin-top: 20px;
+      font-size: 34px;
+      margin-top: 30px;
+      text-shadow: 0 0 10px red;
     }
 
     .countdown {
       color: yellow;
-      font-size: 48px;
-      margin-top: 40px;
+      font-size: 70px;
+      margin-top: 50px;
+      text-shadow: 0 0 15px yellow;
     }
 
     .tiktok {
       color: #00ff00;
-      font-size: 20px;
+      font-size: 24px;
       margin-top: 60px;
+      text-shadow: 0 0 10px green;
     }
 
     .tiktok a {
@@ -43,16 +55,18 @@
     }
 
     .terminal {
-      background-color: #002200;
+      background-color: #002200aa;
       color: #00ff00;
-      font-size: 16px;
+      font-size: 18px;
       text-align: left;
       margin: 40px auto;
       padding: 20px;
       width: 80%;
       max-width: 700px;
       border-radius: 10px;
-      box-shadow: 0 0 20px #00ff00;
+      box-shadow: 0 0 25px #00ff00;
+      white-space: pre-wrap;
+      overflow: hidden;
     }
 
     @keyframes shake {
@@ -68,38 +82,97 @@
       90% { transform: translate(1px, 2px) rotate(0deg); }
       100% { transform: translate(1px, -2px) rotate(-1deg); }
     }
+
+    @keyframes flash {
+      from { opacity: 1; }
+      to { opacity: 0.9; }
+    }
+
+    /* دم متساقط */
+    .blood-drip {
+      position: absolute;
+      top: -100px;
+      width: 100%;
+      height: 100px;
+      background: url('https://i.imgur.com/kfKZqvz.png') repeat-x;
+      background-size: contain;
+      animation: drip 3s linear infinite;
+      z-index: 1000;
+    }
+
+    @keyframes drip {
+      0% { top: -100px; }
+      100% { top: 0px; }
+    }
+
+    /* فلاش أبيض */
+    #white-flash {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background: white;
+      opacity: 0;
+      pointer-events: none;
+      z-index: 2000;
+      transition: opacity 0.2s ease-in-out;
+    }
   </style>
 </head>
 <body>
 
-  <div class="warning">احذر</div>
-  <div class="message">تم سحب المعلومات</div>
+  <div class="blood-drip"></div>
+  <div id="white-flash"></div>
+
+  <div class="warning">احــــذر</div>
+  <div class="message">⚠ تم سحب جميع معلوماتك الخاصة</div>
   <div class="countdown" id="countdown">9</div>
 
-  <div class="terminal" id="terminal">
-    <pre>
-$ connect to database...
-$ extracting sensitive data...
-$ encrypting payload...
-$ transmitting to external server...
-$ done.
-    </pre>
-  </div>
+  <div class="terminal" id="terminal"></div>
 
   <div class="tiktok">
-    لحذف البيانات ضيفني في التيك توك:
+    🧨 لحذف البيانات ضيفني على التيك توك:
     <br>
     <a href="https://www.tiktok.com/@hblow" target="_blank">@hblow</a>
   </div>
 
+  <!-- الأصوات -->
   <audio id="beep">
     <source src="https://www.soundjay.com/button/sounds/beep-07.mp3" type="audio/mpeg">
+  </audio>
+
+  <audio id="scream" autoplay>
+    <source src="https://www.fesliyanstudios.com/play-mp3/4386" type="audio/mpeg">
   </audio>
 
   <script>
     let count = 9;
     const countdownEl = document.getElementById("countdown");
     const beep = document.getElementById("beep");
+    const terminal = document.getElementById("terminal");
+    const flash = document.getElementById("white-flash");
+
+    const fakeCodeLines = [
+      "$ access_granted...",
+      "$ locating device IP...",
+      "$ injecting trojan...",
+      "$ collecting files...",
+      "$ uploading to darknet...",
+      "$ deleting local backups...",
+      "$ spoofing identity...",
+      "$ complete."
+    ];
+
+    let i = 0;
+    function typeLine() {
+      if (i < fakeCodeLines.length) {
+        terminal.innerHTML += fakeCodeLines[i] + "\n";
+        i++;
+        setTimeout(typeLine, 700);
+      }
+    }
+    typeLine();
 
     const interval = setInterval(() => {
       if (count > 1) {
@@ -110,8 +183,21 @@ $ done.
         countdownEl.textContent = "1";
         beep.play();
         clearInterval(interval);
+        triggerFlash();
+        stopAnimations();
       }
     }, 1000);
+
+    function triggerFlash() {
+      flash.style.opacity = 1;
+      setTimeout(() => {
+        flash.style.opacity = 0;
+      }, 200);
+    }
+
+    function stopAnimations() {
+      document.body.style.animation = "none";
+    }
   </script>
 
 </body>
