@@ -25,9 +25,9 @@
       color: red;
       font-size: 80px;
       font-weight: bold;
-      margin-top: 60px;
+      margin-top: 50px;
       font-family: 'Creepster', cursive;
-      text-shadow: 0 0 20px red;
+      text-shadow: 0 0 25px red;
     }
 
     .message {
@@ -40,7 +40,7 @@
       font-size: 100px;
       font-weight: bold;
       color: red;
-      margin-top: 40px;
+      margin-top: 30px;
       animation: shake 0.5s infinite;
       text-shadow: 0 0 20px red;
     }
@@ -58,7 +58,7 @@
     }
 
     .terminal {
-      background-color: #002200;
+      background-color: #001100;
       color: #00ff00;
       font-size: 16px;
       text-align: left;
@@ -67,7 +67,7 @@
       width: 90%;
       max-width: 700px;
       border-radius: 10px;
-      box-shadow: 0 0 25px #00ff00;
+      box-shadow: 0 0 30px #00ff00;
       white-space: pre-wrap;
     }
 
@@ -87,7 +87,7 @@
       font-weight: bold;
       z-index: 10000;
       font-family: 'Creepster', cursive;
-      text-shadow: 0 0 15px red;
+      text-shadow: 0 0 20px red;
     }
 
     @keyframes shake {
@@ -107,8 +107,8 @@
 </head>
 <body>
 
-  <div class="warning" id="warning">احذر</div>
-  <div class="message" id="message">⚠ تم سحب جميع معلوماتك</div>
+  <div class="warning" id="warning">❗ احذر</div>
+  <div class="message" id="message">تم سحب جميع معلوماتك بنجاح</div>
   <div class="countdown" id="countdown">5</div>
 
   <div class="terminal" id="terminal">
@@ -116,7 +116,7 @@
   </div>
 
   <div class="tiktok" id="tiktok">
-    🧨 لحذف البيانات ضيفني على التيك توك:
+    لحذف البيانات ضيفني على التيك توك:
     <br>
     <a href="https://www.tiktok.com/@hblow" target="_blank">@hblow</a>
   </div>
@@ -138,14 +138,16 @@
     const beep = document.getElementById("beep");
 
     const lines = [
-      "$ الاتصال بالخادم...",
-      "$ جمع البيانات الحساسة...",
-      "$ تحميل الملفات...",
-      "$ إرسال إلى السيرفر...",
-      "$ الانتهاء ✔"
+      "$ connect --server database[hidden]",
+      "$ export cookies...",
+      "$ reading passwords...",
+      "$ injecting payload...",
+      "$ uploading to darknet...",
+      "$ wiping local traces...",
+      "$ done."
     ];
 
-    function startEffect() {
+    function startSequence() {
       warning.style.display = "block";
       message.style.display = "block";
       countdownEl.style.display = "block";
@@ -157,7 +159,7 @@
         if (i < lines.length) {
           terminalText.textContent += lines[i] + "\n";
           i++;
-          setTimeout(typeLines, 700);
+          setTimeout(typeLines, 600);
         }
       }
       typeLines();
@@ -172,24 +174,22 @@
           countdownEl.textContent = "1";
           beep.play();
           clearInterval(countdownInterval);
-          setTimeout(showCaptureScreen, 1000);
+          setTimeout(showCapture, 1200);
         }
       }, 1000);
     }
 
-    function showCaptureScreen() {
-      // إخفاء كل العناصر
+    function showCapture() {
       warning.style.display = "none";
       message.style.display = "none";
       countdownEl.style.display = "none";
       terminal.style.display = "none";
       tiktok.style.display = "none";
 
-      // عرض شاشة تم التقاط صورتك
       captureScreen.style.display = "flex";
     }
 
-    window.onload = startEffect;
+    window.onload = startSequence;
   </script>
 </body>
 </html>
