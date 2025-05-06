@@ -42,15 +42,15 @@
     }
 
     .tiktok {
-      color: #1DA1F2; /* الأزرق الجديد */
+      color: #1DA1F2;
       font-size: 16px;
       margin-top: 30px;
-      text-shadow: 0 0 10px #1DA1F2; /* الأزرق الجديد */
+      text-shadow: 0 0 10px #1DA1F2;
       display: block;
     }
 
     .tiktok a {
-      color: #1DA1F2; /* الأزرق الجديد */
+      color: #1DA1F2;
       text-decoration: underline;
       font-size: 18px;
     }
@@ -71,51 +71,73 @@
     }
 
     .capture-screen {
-      display: block;
-      font-size: 30px;
-      font-weight: bold;
-      text-align: center;
+      display: none;
+      background-color: black;
+      position: absolute;
+      top: 0;
+      left: 0;
+      height: 100vh;
+      width: 100vw;
       color: red;
-      margin-top: 50px;
-      text-shadow: 0 0 20px red;
-      font-family: 'Creepster', cursive;
+      text-align: center;
+      padding-top: 100px;
+      font-family: 'Courier New', monospace;
+    }
+
+    .capture-screen h1 {
+      font-size: 32px;
+      color: red;
+      text-shadow: 0 0 15px red;
+    }
+
+    .hacker-name {
+      font-size: 28px;
+      font-weight: bold;
+      margin-top: 20px;
+      background: linear-gradient(90deg, red, green, blue);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      position: relative;
+    }
+
+    .hacker-name::after {
+      content: '';
+      position: absolute;
+      top: 80%;
+      left: 50%;
+      transform: translateX(-50%);
+      width: 80%;
+      height: 8px;
+      background: red;
+      border-radius: 50%;
+      box-shadow: 0 0 10px red;
+    }
+
+    .capture-tiktok {
+      color: #1DA1F2;
+      font-size: 18px;
+      margin-top: 40px;
+    }
+
+    .capture-tiktok a {
+      color: #1DA1F2;
+      text-decoration: underline;
     }
 
     @media screen and (max-width: 600px) {
-      .warning, .message, .countdown, .tiktok, .terminal {
-        font-size: 12px;
-      }
-
-      .warning {
-        font-size: 20px;
-      }
-
-      .message {
-        font-size: 14px;
-      }
-
-      .countdown {
-        font-size: 30px;
-      }
-
-      .terminal {
-        font-size: 10px;
-        padding: 8px;
-      }
-
-      .capture-screen {
-        font-size: 18px;
-      }
-
-      .tiktok a {
-        font-size: 16px;
-      }
+      .warning { font-size: 20px; }
+      .message { font-size: 14px; }
+      .countdown { font-size: 30px; }
+      .terminal { font-size: 10px; padding: 8px; }
+      .tiktok a { font-size: 16px; }
+      .capture-screen h1 { font-size: 24px; }
+      .hacker-name { font-size: 22px; }
     }
   </style>
 </head>
 <body>
 
-  <!-- هذه العناصر تظهر في البداية -->
+  <!-- الصفحة الأولى -->
   <div class="warning" id="warning">❗ احذر</div>
   <div class="message" id="message">تم سحب جميع معلوماتك بنجاح</div>
   <div class="countdown" id="countdown">5</div>
@@ -133,13 +155,19 @@ $ done.
   </div>
 
   <div class="tiktok" id="tiktok">
-    لحذف البيانات ضيفني على التيك توك:
+    لحذف البيانات ضيفني على تيك توك:
     <br>
     <a href="https://www.tiktok.com/@hblow" target="_blank">@hblow</a>
   </div>
 
-  <!-- هذه الشاشة ستظهر بعد العد التنازلي -->
-  <div class="capture-screen" id="captureScreen">❗ تم التقاط صورتك</div>
+  <!-- الصفحة الثانية -->
+  <div class="capture-screen" id="captureScreen">
+    <h1>📸 تم التقاط صورتك</h1>
+    <div class="hacker-name">المخترق SHR</div>
+    <div class="capture-tiktok">
+      TikTok: <a href="https://www.tiktok.com/@hblow" target="_blank">@hblow</a>
+    </div>
+  </div>
 
   <audio id="beep">
     <source src="https://www.soundjay.com/button/sounds/beep-07.mp3" type="audio/mpeg">
@@ -166,7 +194,6 @@ $ done.
     ];
 
     function startSequence() {
-      // إظهار جميع العناصر
       warning.style.display = "block";
       message.style.display = "block";
       countdownEl.style.display = "block";
@@ -193,20 +220,17 @@ $ done.
           countdownEl.textContent = "1";
           beep.play();
           clearInterval(countdownInterval);
-          setTimeout(showCapture, 1200); // إظهار الشاشة الجديدة بعد 1 ثانية
+          setTimeout(showCapture, 1200);
         }
       }, 1000);
     }
 
     function showCapture() {
-      // إخفاء العناصر
       warning.style.display = "none";
       message.style.display = "none";
       countdownEl.style.display = "none";
       terminal.style.display = "none";
       tiktok.style.display = "none";
-
-      // إظهار شاشة التقاط الصورة
       captureScreen.style.display = "block";
     }
 
