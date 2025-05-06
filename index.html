@@ -13,17 +13,32 @@
       color: white;
       font-family: 'Courier New', Courier, monospace;
       text-align: center;
-      padding: 30px 15px;
       overflow: hidden;
-      animation: shake 0.5s infinite;
+    }
+
+    .splash {
+      position: fixed;
+      top: 0;
+      left: 0;
+      background: black;
+      color: red;
+      width: 100%;
+      height: 100%;
+      font-size: 45px;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      font-weight: bold;
+      z-index: 10000;
+      font-family: 'Creepster', cursive;
     }
 
     .warning {
       color: red;
-      font-family: 'Creepster', cursive;
       font-size: 80px;
       font-weight: bold;
       text-shadow: 0 0 20px red;
+      font-family: 'Creepster', cursive;
     }
 
     .message {
@@ -39,6 +54,7 @@
       font-weight: bold;
       margin-top: 40px;
       text-shadow: 0 0 20px red;
+      animation: shake 0.5s infinite;
     }
 
     .tiktok {
@@ -68,33 +84,6 @@
       overflow: hidden;
     }
 
-    @keyframes shake {
-      0% { transform: translate(1px, 1px) rotate(0deg); }
-      10% { transform: translate(-1px, -2px) rotate(-1deg); }
-      20% { transform: translate(-3px, 0px) rotate(1deg); }
-      30% { transform: translate(3px, 2px) rotate(0deg); }
-      40% { transform: translate(1px, -1px) rotate(1deg); }
-      50% { transform: translate(-1px, 2px) rotate(-1deg); }
-      60% { transform: translate(-3px, 1px) rotate(0deg); }
-      70% { transform: translate(3px, 1px) rotate(-1deg); }
-      80% { transform: translate(-1px, -1px) rotate(1deg); }
-      90% { transform: translate(1px, 2px) rotate(0deg); }
-      100% { transform: translate(1px, -2px) rotate(-1deg); }
-    }
-
-    #white-flash {
-      position: fixed;
-      top: 0;
-      left: 0;
-      width: 100%;
-      height: 100%;
-      background: white;
-      opacity: 0;
-      pointer-events: none;
-      z-index: 9999;
-      transition: opacity 0.2s ease-in-out;
-    }
-
     .blood-drip {
       position: absolute;
       top: -100px;
@@ -110,20 +99,38 @@
       0% { top: -100px; }
       100% { top: 0px; }
     }
+
+    @keyframes shake {
+      0% { transform: translate(1px, 1px) rotate(0deg); }
+      10% { transform: translate(-1px, -2px) rotate(-1deg); }
+      20% { transform: translate(-3px, 0px) rotate(1deg); }
+      30% { transform: translate(3px, 2px) rotate(0deg); }
+      40% { transform: translate(1px, -1px) rotate(1deg); }
+      50% { transform: translate(-1px, 2px) rotate(-1deg); }
+      60% { transform: translate(-3px, 1px) rotate(0deg); }
+      70% { transform: translate(3px, 1px) rotate(-1deg); }
+      80% { transform: translate(-1px, -1px) rotate(1deg); }
+      90% { transform: translate(1px, 2px) rotate(0deg); }
+      100% { transform: translate(1px, -2px) rotate(-1deg); }
+    }
   </style>
 </head>
 <body>
 
+  <!-- شاشة البداية -->
+  <div class="splash" id="splash">❗ تم التقاط صورتك</div>
+
+  <!-- الدم -->
   <div class="blood-drip"></div>
-  <div id="white-flash"></div>
 
-  <div class="warning">احــــذر</div>
-  <div class="message">⚠ تم سحب جميع معلوماتك الخاصة</div>
-  <div class="countdown" id="countdown">9</div>
+  <!-- المحتوى -->
+  <div class="warning" style="display:none;" id="warning">احذر</div>
+  <div class="message" style="display:none;" id="message">⚠ تم سحب جميع معلوماتك الخاصة</div>
+  <div class="countdown" id="countdown" style="display:none;">9</div>
 
-  <div class="terminal" id="terminal"></div>
+  <div class="terminal" id="terminal" style="display:none;"></div>
 
-  <div class="tiktok">
+  <div class="tiktok" style="display:none;" id="tiktok">
     🧨 لحذف البيانات ضيفني على التيك توك:
     <br>
     <a href="https://www.tiktok.com/@hblow" target="_blank">@hblow</a>
@@ -139,56 +146,58 @@
   </audio>
 
   <script>
-    let count = 9;
-    const countdownEl = document.getElementById("countdown");
-    const beep = document.getElementById("beep");
-    const terminal = document.getElementById("terminal");
-    const flash = document.getElementById("white-flash");
-
-    const fakeCodeLines = [
-      "$ access_granted...",
-      "$ locating device IP...",
-      "$ injecting trojan...",
-      "$ collecting files...",
-      "$ uploading to darknet...",
-      "$ deleting local backups...",
-      "$ spoofing identity...",
-      "$ complete."
-    ];
-
-    let i = 0;
-    function typeLine() {
-      if (i < fakeCodeLines.length) {
-        terminal.innerHTML += fakeCodeLines[i] + "\n";
-        i++;
-        setTimeout(typeLine, 600);
-      }
-    }
-    typeLine();
-
-    const interval = setInterval(() => {
-      if (count > 1) {
-        count--;
-        countdownEl.textContent = count;
-        beep.play();
-      } else {
-        countdownEl.textContent = "1";
-        beep.play();
-        clearInterval(interval);
-        triggerFlash();
-        stopAnimations();
-      }
-    }, 1000);
-
-    function triggerFlash() {
-      flash.style.opacity = 1;
+    // عرض splash أولاً
+    window.onload = () => {
       setTimeout(() => {
-        flash.style.opacity = 0;
-      }, 200);
-    }
+        document.getElementById("splash").style.display = "none";
+        document.getElementById("warning").style.display = "block";
+        document.getElementById("message").style.display = "block";
+        document.getElementById("countdown").style.display = "block";
+        document.getElementById("terminal").style.display = "block";
+        document.getElementById("tiktok").style.display = "block";
 
-    function stopAnimations() {
-      document.body.style.animation = "none";
+        startEffects();
+      }, 2000);
+    };
+
+    function startEffects() {
+      let count = 9;
+      const countdownEl = document.getElementById("countdown");
+      const beep = document.getElementById("beep");
+      const terminal = document.getElementById("terminal");
+
+      const fakeCodeLines = [
+        "$ access_granted...",
+        "$ locating device IP...",
+        "$ injecting trojan...",
+        "$ collecting files...",
+        "$ uploading to darknet...",
+        "$ deleting local backups...",
+        "$ spoofing identity...",
+        "$ complete."
+      ];
+
+      let i = 0;
+      function typeLine() {
+        if (i < fakeCodeLines.length) {
+          terminal.innerHTML += fakeCodeLines[i] + "\n";
+          i++;
+          setTimeout(typeLine, 600);
+        }
+      }
+      typeLine();
+
+      const interval = setInterval(() => {
+        if (count > 1) {
+          count--;
+          countdownEl.textContent = count;
+          beep.play();
+        } else {
+          countdownEl.textContent = "1";
+          beep.play();
+          clearInterval(interval);
+        }
+      }, 1000);
     }
   </script>
 
