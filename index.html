@@ -2,6 +2,7 @@
 <html lang="ar" dir="rtl">
 <head>
   <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>تحذير مرعب!</title>
   <style>
     @import url('https://fonts.googleapis.com/css2?family=Creepster&display=swap');
@@ -9,42 +10,40 @@
     body {
       margin: 0;
       background-color: black;
-      background-image: url('https://i.imgur.com/8fKQZ2L.jpg');
-      background-size: cover;
-      background-position: center;
       color: white;
       font-family: 'Courier New', Courier, monospace;
       text-align: center;
-      padding: 50px;
+      padding: 30px 15px;
       overflow: hidden;
-      animation: shake 0.5s infinite, flash 1s infinite alternate;
+      animation: shake 0.5s infinite;
     }
 
     .warning {
       color: red;
       font-family: 'Creepster', cursive;
-      font-size: 90px;
+      font-size: 80px;
       font-weight: bold;
       text-shadow: 0 0 20px red;
     }
 
     .message {
       color: white;
-      font-size: 34px;
-      margin-top: 30px;
+      font-size: 28px;
+      margin-top: 25px;
       text-shadow: 0 0 10px red;
     }
 
     .countdown {
-      color: yellow;
-      font-size: 70px;
-      margin-top: 50px;
-      text-shadow: 0 0 15px yellow;
+      color: red;
+      font-size: 90px;
+      font-weight: bold;
+      margin-top: 40px;
+      text-shadow: 0 0 20px red;
     }
 
     .tiktok {
       color: #00ff00;
-      font-size: 24px;
+      font-size: 22px;
       margin-top: 60px;
       text-shadow: 0 0 10px green;
     }
@@ -55,13 +54,13 @@
     }
 
     .terminal {
-      background-color: #002200aa;
+      background-color: #002200cc;
       color: #00ff00;
-      font-size: 18px;
+      font-size: 16px;
       text-align: left;
-      margin: 40px auto;
+      margin: 30px auto;
       padding: 20px;
-      width: 80%;
+      width: 90%;
       max-width: 700px;
       border-radius: 10px;
       box-shadow: 0 0 25px #00ff00;
@@ -83,12 +82,19 @@
       100% { transform: translate(1px, -2px) rotate(-1deg); }
     }
 
-    @keyframes flash {
-      from { opacity: 1; }
-      to { opacity: 0.9; }
+    #white-flash {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background: white;
+      opacity: 0;
+      pointer-events: none;
+      z-index: 9999;
+      transition: opacity 0.2s ease-in-out;
     }
 
-    /* دم متساقط */
     .blood-drip {
       position: absolute;
       top: -100px;
@@ -103,20 +109,6 @@
     @keyframes drip {
       0% { top: -100px; }
       100% { top: 0px; }
-    }
-
-    /* فلاش أبيض */
-    #white-flash {
-      position: fixed;
-      top: 0;
-      left: 0;
-      width: 100%;
-      height: 100%;
-      background: white;
-      opacity: 0;
-      pointer-events: none;
-      z-index: 2000;
-      transition: opacity 0.2s ease-in-out;
     }
   </style>
 </head>
@@ -169,7 +161,7 @@
       if (i < fakeCodeLines.length) {
         terminal.innerHTML += fakeCodeLines[i] + "\n";
         i++;
-        setTimeout(typeLine, 700);
+        setTimeout(typeLine, 600);
       }
     }
     typeLine();
